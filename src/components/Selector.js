@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { Consumer } from './RedditContext';
+import React, { useContext } from 'react';
+import { Context } from './RedditContext';
 
 const renderOptions = (options) => (
   options.map((option) => (
@@ -13,20 +12,24 @@ const renderOptions = (options) => (
   ))
 );
 
-const Selector = () => (
-  <Consumer>
-    {({ selectedSubreddit, availableSubreddits, selectSubreddit }) => (
-      <span>
-        <h1>{`Selected: ${selectedSubreddit}`}</h1>
-        <select
-          onChange={(e) => selectSubreddit(e.target.value)}
-          value={selectedSubreddit}
-        >
-          {renderOptions(availableSubreddits)}
-        </select>
-      </span>
-    )}
-  </Consumer>
-);
+const Selector = () => {
+  const {
+    selectSubreddit,
+    availableSubreddits,
+    selectedSubreddit,
+  } = useContext(Context);
+
+  return (
+    <span>
+      <h1>{`Selected: ${selectedSubreddit}`}</h1>
+      <select
+        onChange={(e) => selectSubreddit(e.target.value)}
+        value={selectedSubreddit}
+      >
+        {renderOptions(availableSubreddits)}
+      </select>
+    </span>
+  )
+};
 
 export default Selector;
